@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Optika App</string>
     <string name="addCustomerBtn">Dodaj Pregled</string>
+    <string name="od_sph"> O.D. sph: </string>
+    <string name="od_cyl"> O.D. cyl: </string>
+    <string name="angle"> ax </string>
+    <string name="os_sph"> O.S. sph: </string>
+    <string name="os_cyl"> O.S. cyl: </string>
 </resources>

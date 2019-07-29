@@ -21,6 +21,15 @@ public class BuyerAdapter extends ArrayAdapter<Buyer> implements View.OnClickLis
         TextView name;
         TextView lastname;
         TextView phoneNum;
+        int id;
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getId() {
+            return this.id;
+        }
     }
 
     public BuyerAdapter(List<Buyer> buyers, Context context) {
@@ -63,6 +72,7 @@ public class BuyerAdapter extends ArrayAdapter<Buyer> implements View.OnClickLis
         viewHolder.name.setText(buyer.getName());
         viewHolder.lastname.setText(buyer.getLastname());
         viewHolder.phoneNum.setText(buyer.getPhoneNums());
+        viewHolder.setId(buyer.getId());
         System.out.println("Made View with following data: " + buyer.getName() + " " + buyer.getLastname() + " " + buyer.getPhoneNums());
 
         return convertView;

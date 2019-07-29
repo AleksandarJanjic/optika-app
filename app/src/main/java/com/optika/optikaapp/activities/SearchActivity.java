@@ -1,6 +1,10 @@
 package com.optika.optikaapp.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +30,9 @@ public class SearchActivity extends AppCompatActivity{
     private static BuyerAdapter adapter;
     List<Buyer> foundBuyers;
     public SearchView searchView;
+    Call<List<Buyer>> call;
+    Context context;
+    public static String optikaapp_message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,21 +40,28 @@ public class SearchActivity extends AppCompatActivity{
         setContentView(R.layout.activity_search);
         listView = findViewById(R.id.list_view);
         searchView = findViewById(R.id.simpleSearchView);
-
+        context = this;
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                System.out.println("inside OnQueryTextSubmit");
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("")
+                        .baseUrl("http://192.168.1.26:8080/")
                         .addConverterFactory(GsonConverterFactory.create())
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                         .build();
 
                 BuyerService buyerService = retrofit.create(BuyerService.class);
-                Call<List<Buyer>> call = buyerService.getBuyers();
+
+                String[] split = query.split(" ");
+                if(split.length > 1) {
+                    String name = split[0];
+                    String lastname = split[1];
+                    call = buyerService.getBuyersByName(name, lastname);
+                } else {
+                    call = buyerService.getBuyersByName(query, null);
+                }
 
                 call.enqueue(new Callback<List<Buyer>>() {
                     @Override
@@ -78,6 +92,17 @@ public class SearchActivity extends AppCompatActivity{
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Buyer buyer = foundBuyers.get(i);
+                int userId = buyer.getId();
+                Intent intent = new Intent(context, DisplayBuyer.class);
+                intent.putExtra(optikaapp_message, userId);
+                startActivity(intent);
             }
         });
     }

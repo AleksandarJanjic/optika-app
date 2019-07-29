@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/OD_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/od_sph"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/od_sph_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/OD_text"
+        app:layout_constraintEnd_toStartOf="@id/OD_CYL_text"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/OD_CYL_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/od_cyl"
+        app:layout_constraintEnd_toStartOf="@id/od_cyl_placeholder"
+        app:layout_constraintStart_toEndOf="@+id/od_sph_placeholder"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/od_cyl_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/OD_CYL_text"
+        app:layout_constraintEnd_toStartOf="@+id/ANGLE_text"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/ANGLE_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/angle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/od_cyl_placeholder"
+        app:layout_constraintEnd_toStartOf="@id/od_angle_placeholder"/>
+
+    <TextView
+        android:id="@+id/od_angle_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ANGLE_text"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/OS_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/os_sph"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/OD_text" />
+
+    <TextView
+        android:id="@+id/os_sph_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/OS_text"
+        app:layout_constraintEnd_toStartOf="@id/OS_CYL_text"
+        app:layout_constraintTop_toBottomOf="@+id/od_sph_placeholder" />
+
+    <TextView
+        android:id="@+id/OS_CYL_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/os_cyl"
+        app:layout_constraintEnd_toStartOf="@id/os_cyl_placeholder"
+        app:layout_constraintStart_toEndOf="@+id/os_sph_placeholder"
+        app:layout_constraintTop_toBottomOf="@+id/OD_CYL_text" />
+
+    <TextView
+        android:id="@+id/os_cyl_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/OS_CYL_text"
+        app:layout_constraintEnd_toStartOf="@+id/OSANGLE_text"
+        app:layout_constraintTop_toBottomOf="@id/od_cyl_placeholder"/>
+
+    <TextView
+        android:id="@+id/OSANGLE_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/angle"
+        app:layout_constraintTop_toBottomOf="@+id/ANGLE_text"
+        app:layout_constraintStart_toEndOf="@+id/os_cyl_placeholder"
+        app:layout_constraintEnd_toStartOf="@id/os_angle_placeholder"/>
+
+    <TextView
+        android:id="@+id/os_angle_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/OSANGLE_text"
+        app:layout_constraintTop_toBottomOf="@id/od_angle_placeholder" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

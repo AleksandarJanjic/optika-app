@@ -1,0 +1,106 @@
+package com.optika.optikaapp.adapters;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.TextView;
+
+import com.optika.optikaapp.R;
+import com.optika.optikaapp.helpers.CheckForNull;
+import com.optika.optikaapp.model.Order;
+
+import org.w3c.dom.Text;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+
+public class BuyerDetailsAdapter extends BaseExpandableListAdapter {
+
+    private HashMap <String, Order> orders;
+    private List<String> titles;
+    Context context;
+
+    public BuyerDetailsAdapter(Context context, List<String> titles, HashMap<String, Order> orders) {
+        super();
+        this.context = context;
+        this.titles = titles;
+        this.orders = orders;
+    }
+
+    @Override
+    public int getGroupCount() {
+        return this.orders.size();
+    }
+
+    @Override
+    public int getChildrenCount(int i) {
+        return 1;
+    }
+
+    @Override
+    public Object getGroup(int i) {
+        return this.titles.get(i);
+    }
+
+    @Override
+    public Object getChild(int i, int i1) {
+        return this.orders.get(this.titles.get(i));
+    }
+
+    @Override
+    public long getGroupId(int i) {
+        return 0;
+    }
+
+    @Override
+    public long getChildId(int i, int i1) {
+        return i1;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
+        String listTitle = (String) getGroup(i);
+        if(view == null) {
+            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = layoutInflater.inflate(R.layout.row_expandable_parent, null);
+        }
+        TextView title = (TextView) view.findViewById(R.id.comment_date);
+        title.setText(listTitle);
+        return view;
+    }
+
+    @Override
+    public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
+        Order order = (Order) getChild(i, i1);
+        if(view == null) {
+            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = layoutInflater.inflate(R.layout.row_expandable_child_constraint, null);
+        }
+        TextView od_sph = (TextView) view.findViewById(R.id.od_sph_placeholder);
+        od_sph.setText(CheckForNull.checkIfNull(order.getOd_sph()));
+        TextView od_cyl = (TextView) view.findViewById(R.id.od_cyl_placeholder);
+        od_cyl.setText(CheckForNull.checkIfNull(order.getOd_cyl()));
+        TextView od_angle = (TextView) view.findViewById(R.id.od_angle_placeholder);
+        od_angle.setText(CheckForNull.checkIfNull(order.getOd_angle()));
+        TextView os_sph = (TextView) view.findViewById(R.id.os_sph_placeholder);
+        os_sph.setText(CheckForNull.checkIfNull(order.getOs_sph()));
+        TextView os_cyl = (TextView) view.findViewById(R.id.os_cyl_placeholder);
+        os_cyl.setText(CheckForNull.checkIfNull(order.getOs_cyl()));
+        TextView os_angle = (TextView) view.findViewById(R.id.os_angle_placeholder);
+        os_angle.setText(CheckForNull.checkIfNull(order.getOs_angle()));
+        return view;
+    }
+
+    @Override
+    public boolean isChildSelectable(int i, int i1) {
+        return false;
+    }
+}
