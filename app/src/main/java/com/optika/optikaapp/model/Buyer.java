@@ -44,25 +44,40 @@ public class Buyer {
     }
 
     public List<Contact> getContacts() {
-        return contacts;
+        List<Contact> res = new ArrayList<>();
+        for (Contact c: contacts
+             ) {
+            System.out.println("Contact is deleted: " + c.getDeleted());
+            if(c.getDeleted() == false) {
+                res.add(c);
+            }
+        }
+        return res;
     }
 
     public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
     }
 
-    public String getPhoneNums() {
-        if(contacts.size() >= 1) {
-            System.out.println("Found " + contacts.size() + " contact(s)");
-            StringBuilder stringBuilder = new StringBuilder();
-            for (Contact c:contacts
+    public ArrayList<String> getPhoneNums() {
+        ArrayList<String> phoneNums = new ArrayList<>();
+        List<Contact> available = getContacts();
+        if(available.size() >= 1) {
+            System.out.println("Found " + available.size() + " contact(s)");
+            for (Contact c:available
                  ) {
-                stringBuilder.append(c.getPhoneNum());
-                stringBuilder.append(" - ");
+                System.out.println(c.getDeleted());
+                phoneNums.add(c.getPhoneNum());
             }
-            return stringBuilder.toString();
+            return phoneNums;
+        } else {
+            phoneNums.add(" ");
+            return phoneNums;
         }
-        return " ";
+    }
+
+    public List<Contact> contacts() {
+        return contacts;
     }
 
     public Buyer(String name, String lastname, Contact contact) {

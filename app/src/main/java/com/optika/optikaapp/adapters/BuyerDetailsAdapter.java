@@ -1,27 +1,35 @@
 package com.optika.optikaapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.optika.optikaapp.R;
+import com.optika.optikaapp.activities.DisplayBuyer;
+import com.optika.optikaapp.factories.RetrofitFactory;
 import com.optika.optikaapp.helpers.CheckForNull;
+import com.optika.optikaapp.interfaces.OrderService;
 import com.optika.optikaapp.model.Order;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class BuyerDetailsAdapter extends BaseExpandableListAdapter {
 
     private HashMap <String, Order> orders;
     private List<String> titles;
     Context context;
+    public static String optikaapp_userId;
 
     public BuyerDetailsAdapter(Context context, List<String> titles, HashMap<String, Order> orders) {
         super();
@@ -79,11 +87,13 @@ public class BuyerDetailsAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-        Order order = (Order) getChild(i, i1);
+        final Order order = (Order) getChild(i, i1);
         if(view == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = layoutInflater.inflate(R.layout.row_expandable_child_constraint, null);
         }
+        TextView purpose = (TextView) view.findViewById(R.id.naocare);
+        purpose.setText(order.getHasAddition() ? R.string.naocare_za_stalno : R.string.naocare_za_rad);
         TextView od_sph = (TextView) view.findViewById(R.id.od_sph_placeholder);
         od_sph.setText(CheckForNull.checkIfNull(order.getOd_sph()));
         TextView od_cyl = (TextView) view.findViewById(R.id.od_cyl_placeholder);
@@ -96,6 +106,46 @@ public class BuyerDetailsAdapter extends BaseExpandableListAdapter {
         os_cyl.setText(CheckForNull.checkIfNull(order.getOs_cyl()));
         TextView os_angle = (TextView) view.findViewById(R.id.os_angle_placeholder);
         os_angle.setText(CheckForNull.checkIfNull(order.getOs_angle()));
+        TextView additionText = (TextView) view.findViewById(R.id.addition_text);
+        TextView additionPlaceholder = (TextView) view.findViewById(R.id.addition_placeholder);
+        if(order.getHasAddition()) {
+            additionPlaceholder.setText(CheckForNull.checkIfNull(order.getAddition()));
+        } else {
+            additionText.setVisibility(View.GONE);
+            additionPlaceholder.setVisibility(View.GONE);
+        }
+        TextView type_placeholder = (TextView) view.findViewById(R.id.type_placeholder);
+        if(!(order.getType() == null)) {
+            type_placeholder.setText(order.getType().getType());
+        }
+        TextView frame_placeholder = (TextView) view.findViewById(R.id.frame_placeholder);
+        frame_placeholder.setText(order.getFrame());
+        TextView pd_placeholder = (TextView) view.findViewById(R.id.pd_placeholder);
+        pd_placeholder.setText(order.getPd());
+        ImageButton delete = (ImageButton) view.findViewById(R.id.delete_order_icon);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Retrofit retrofit = RetrofitFactory.getRetrofit();
+                OrderService orderService = retrofit.create(OrderService.class);
+                Call<String> call = orderService.deleteOrder(order.getId());
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        Intent intent = new Intent(context, DisplayBuyer.class);
+                        intent.putExtra("origin", "BuyerDetailsAdapter");
+                        intent.putExtra(optikaapp_userId, order.getId());
+                        intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
         return view;
     }
 

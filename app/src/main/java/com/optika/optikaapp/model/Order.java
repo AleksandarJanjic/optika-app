@@ -46,7 +46,10 @@ public class Order {
     private Boolean hasAddition;
 
     @SerializedName("addition")
-    private String addition;
+    private Diopter addition;
+
+    @SerializedName("isDeleted")
+    private boolean isDeleted;
 
     public int getId() {
         return id;
@@ -112,8 +115,8 @@ public class Order {
         this.os_angle = os_angle;
     }
 
-    public double getPd() {
-        return pd;
+    public String getPd() {
+        return String.valueOf(pd);
     }
 
     public void setPd(double pd) {
@@ -152,11 +155,19 @@ public class Order {
         this.hasAddition = hasAddition;
     }
 
-    public String getAddition() {
+    public Diopter getAddition() {
         return addition;
     }
 
-    public void setAddition(String addition) {
+    public void setAddition(Diopter addition) {
         this.addition = addition;
+    }
+
+    public boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }

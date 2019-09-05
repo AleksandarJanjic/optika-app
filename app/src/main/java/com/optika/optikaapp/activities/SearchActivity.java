@@ -12,6 +12,7 @@ import androidx.appcompat.widget.SearchView;
 
 import com.optika.optikaapp.R;
 import com.optika.optikaapp.adapters.BuyerAdapter;
+import com.optika.optikaapp.factories.RetrofitFactory;
 import com.optika.optikaapp.interfaces.BuyerService;
 import com.optika.optikaapp.model.Buyer;
 
@@ -21,8 +22,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchActivity extends AppCompatActivity{
 
@@ -33,6 +32,7 @@ public class SearchActivity extends AppCompatActivity{
     Call<List<Buyer>> call;
     Context context;
     public static String optikaapp_message;
+    static String origin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +46,7 @@ public class SearchActivity extends AppCompatActivity{
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("http://192.168.1.26:8080/")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                        .build();
+                Retrofit retrofit = RetrofitFactory.getRetrofit();
 
                 BuyerService buyerService = retrofit.create(BuyerService.class);
 
@@ -101,6 +97,7 @@ public class SearchActivity extends AppCompatActivity{
                 Buyer buyer = foundBuyers.get(i);
                 int userId = buyer.getId();
                 Intent intent = new Intent(context, DisplayBuyer.class);
+                intent.putExtra("origin", "SearchActivity");
                 intent.putExtra(optikaapp_message, userId);
                 startActivity(intent);
             }

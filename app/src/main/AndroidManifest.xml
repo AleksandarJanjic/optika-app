@@ -12,8 +12,36 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.DisplayBuyer"></activity>
-        <activity android:name=".activities.SearchActivity" />
+        <activity android:name=".activities.AddContactActivity"
+            android:parentActivityName=".activities.DisplayBuyer">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.DisplayBuyer"/>
+        </activity>
+        <activity android:name=".activities.AddOrderActivity"
+            android:parentActivityName=".activities.DisplayBuyer">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.DisplayBuyer"/>
+        </activity>
+        <activity android:name=".activities.NewBuyerOrder"
+            android:parentActivityName=".activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity"/>
+        </activity>
+        <activity android:name=".activities.DisplayBuyer"
+            android:parentActivityName=".activities.SearchActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.SearchActivity"/>
+        </activity>
+        <activity android:name=".activities.SearchActivity"
+            android:parentActivityName=".activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity"/>
+        </activity>
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

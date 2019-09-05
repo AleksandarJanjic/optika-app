@@ -1,33 +1,38 @@
 package com.optika.optikaapp.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.ViewCompat;
-
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.optika.optikaapp.R;
 import com.optika.optikaapp.adapters.BuyerDetailsAdapter;
+import com.optika.optikaapp.adapters.ContactsAdapter;
+import com.optika.optikaapp.factories.RetrofitFactory;
 import com.optika.optikaapp.interfaces.BuyerService;
 import com.optika.optikaapp.interfaces.OrderService;
 import com.optika.optikaapp.model.Buyer;
+import com.optika.optikaapp.model.Contact;
 import com.optika.optikaapp.model.Order;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DisplayBuyer extends AppCompatActivity {
 
@@ -37,24 +42,38 @@ public class DisplayBuyer extends AppCompatActivity {
     public HashMap<String, Order> orders;
     public List<String> orderTitles;
     public BuyerDetailsAdapter buyerDetailsAdapter;
-    public LinearLayout linearLayout;
+    public ContactsAdapter contactsAdapter;
+    private Context context;
+    private ImageButton addContact;
+    private ImageButton addOrder;
+    public static String optikaapp_userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_buyer);
 
+        context = this;
+
         Intent intent = getIntent();
-        userId = intent.getIntExtra(SearchActivity.optikaapp_message, -1);
+        String origin = intent.getStringExtra("origin");
+        if(origin.equals("AddContactActivity")) {
+            userId = intent.getIntExtra(AddContactActivity.optikaapp_userId, -1);
+        } else if(origin.equals("AddOrderActivity")) {
+            userId = intent.getIntExtra(AddOrderActivity.optikaapp_userId, -1);
+        } else if(origin.equals("BuyerDetailsAdapter")) {
+            userId = intent.getIntExtra(BuyerDetailsAdapter.optikaapp_userId, -1);
+        } else if (origin.equals("ContactsAdapter")) {
+            userId = intent.getIntExtra(ContactsAdapter.optikaapp_userId, -1);
+        } else {
+            userId = intent.getIntExtra(SearchActivity.optikaapp_message, -1);
+        }
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.26:8080/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
+        addContact = findViewById(R.id.add_contact_existing);
+        addOrder = findViewById(R.id.add_order_existing);
 
+        Retrofit retrofit = RetrofitFactory.getRetrofit();
         BuyerService buyerService = retrofit.create(BuyerService.class);
-
         Call<Buyer> call = buyerService.getBuyerById(userId);
 
         call.enqueue(new Callback<Buyer>() {
@@ -64,45 +83,25 @@ public class DisplayBuyer extends AppCompatActivity {
                 resultBuyer = response.body();
                 System.out.println(resultBuyer.getName());
                 System.out.println(resultBuyer.getLastname());
-                constraintLayout = (ConstraintLayout) findViewById(R.id.constraint_layout_buyer_display);
-                linearLayout = (LinearLayout) findViewById(R.id.buyer_linear_layout);
-                // Add Name
-                TextView name = new TextView(getApplicationContext());
-                name.setLayoutParams(new ConstraintLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                ));
+                constraintLayout = (ConstraintLayout) findViewById(R.id.buyer_details_constraint);
 
+                // Add Name
+                TextView name = (TextView) findViewById(R.id.name_placeholder);
                 name.setText(resultBuyer.getName());
-                linearLayout.addView(name);
+
                 // Add Lastname if available
                 if(!(resultBuyer.getLastname() == null)) {
-                    TextView lastname = new TextView(getApplicationContext());
-                    lastname.setLayoutParams(new ConstraintLayout.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT
-                    ));
+                    TextView lastname = (TextView) findViewById(R.id.lastname_placeholder);
                     lastname.setText(resultBuyer.getLastname());
-                    linearLayout.addView(lastname);
                 }
                 // Add Phone numbers if available
                 if(!(resultBuyer.getPhoneNums() == null)) {
-                    TextView phonenums = new TextView(getApplicationContext());
-                    phonenums.setLayoutParams(new ConstraintLayout.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT
-                    ));
-                    phonenums.setText(resultBuyer.getPhoneNums());
-                    linearLayout.addView(phonenums);
+                    ListView phonenums = (ListView) findViewById(R.id.contacts_placeholder);
+                    contactsAdapter = new ContactsAdapter(resultBuyer.getContacts(), context);
+                    phonenums.setAdapter(contactsAdapter);
                 }
 
-//                constraintLayout.addView(linearLayout);
-
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("http://192.168.1.26:8080/")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                        .build();
+                Retrofit retrofit = RetrofitFactory.getRetrofit();
 
                 OrderService orderService = retrofit.create(OrderService.class);
                 final Call<HashMap<String, Order>> callOrder = orderService.getOrdersById(resultBuyer.getId());
@@ -110,7 +109,14 @@ public class DisplayBuyer extends AppCompatActivity {
                 callOrder.enqueue(new Callback<HashMap<String, Order>>() {
                     @Override
                     public void onResponse(Call<HashMap<String, Order>> call, Response<HashMap<String, Order>> response) {
-                        orders = response.body();
+                        HashMap<String, Order> temp = response.body();
+                        orders = new HashMap<String, Order>();
+                        for (Map.Entry<String, Order> e: temp.entrySet()
+                             ) {
+                            if(e.getValue().getIsDeleted() == false) {
+                                orders.put(e.getKey(), e.getValue());
+                            }
+                        }
                         if(!(orders == null)) {
                             ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expandable_list);
                             orderTitles = new ArrayList<String>(orders.keySet()) {
@@ -135,7 +141,20 @@ public class DisplayBuyer extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
-
-
     }
+
+    public void addContact(View view) {
+        Intent intent = new Intent(context, AddContactActivity.class);
+        intent.putExtra(optikaapp_userid, userId);
+        startActivity(intent);
+        finish();
+    }
+
+    public void addOrder(View view) {
+        Intent intent = new Intent(context, AddOrderActivity.class);
+        intent.putExtra(optikaapp_userid, userId);
+        startActivity(intent);
+        finish();
+    }
+
 }

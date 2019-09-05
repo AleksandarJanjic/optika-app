@@ -20,4 +20,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
     }
+
+    public void addNewBuyerOrder(View view) {
+        Intent intent = new Intent(this, NewBuyerOrder.class);
+        startActivity(intent);
+    }
 }

@@ -71,7 +71,13 @@ public class BuyerAdapter extends ArrayAdapter<Buyer> implements View.OnClickLis
 
         viewHolder.name.setText(buyer.getName());
         viewHolder.lastname.setText(buyer.getLastname());
-        viewHolder.phoneNum.setText(buyer.getPhoneNums());
+        StringBuilder sb = new StringBuilder();
+        for (String p: buyer.getPhoneNums()
+             ) {
+            sb.append(p);
+            sb.append(" - ");
+        }
+        viewHolder.phoneNum.setText(sb.toString());
         viewHolder.setId(buyer.getId());
         System.out.println("Made View with following data: " + buyer.getName() + " " + buyer.getLastname() + " " + buyer.getPhoneNums());
 

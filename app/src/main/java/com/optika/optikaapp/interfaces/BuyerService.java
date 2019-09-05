@@ -6,6 +6,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface BuyerService {
@@ -18,4 +19,10 @@ public interface BuyerService {
 
     @GET("getBuyer/getBuyerById")
     Call<Buyer> getBuyerById(@Query("id") int id);
+
+    @POST("/AddBuyer")
+    Call<String> addBuyer(
+            @Query("name") String name,
+            @Query("lastname") String lastname
+    );
 }

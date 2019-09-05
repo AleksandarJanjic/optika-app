@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="16dp"
+        android:layout_marginTop="8dp"
         >
         <TextView
             android:id="@+id/name"
@@ -23,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Prezime" />
+
     </TableRow>
 
     <TextView
@@ -32,5 +34,16 @@
         android:layout_below="@id/upperRow"
         android:paddingLeft="24dp"
         android:text="Broj Telefona"/>
+
+    <View
+        android:id="@+id/separator_rows"
+        android:layout_below="@+id/phoneNum"
+        android:layout_marginTop="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp">
+    </View>
 
 </RelativeLayout>
