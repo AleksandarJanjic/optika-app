@@ -31,7 +31,7 @@ public class Order {
     private Angle os_angle;
 
     @SerializedName("pd")
-    private double pd;
+    private String pd;
 
     @SerializedName("type")
     private Type type;
@@ -119,7 +119,7 @@ public class Order {
         return String.valueOf(pd);
     }
 
-    public void setPd(double pd) {
+    public void setPd(String pd) {
         this.pd = pd;
     }
 

@@ -1,6 +1,7 @@
 package com.optika.optikaapp.fragments;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,8 +44,12 @@ public class TypeFragment extends Fragment {
             public void onClick(View view) {
                 if(toggleButton.getText().equals(getResources().getString(R.string.naocare_za_rad))) {
                     parent.additionOff();
+                    toggleButton.setTextColor(getResources().getColor(R.color.myBlue));
+                    toggleButton.setBackgroundColor(Color.WHITE);
                 } else {
                     parent.additionOn();
+                    toggleButton.setTextColor(Color.WHITE);
+                    toggleButton.setBackgroundColor(getResources().getColor(R.color.myBlue));
                 }
             }
         });

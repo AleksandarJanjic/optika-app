@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:ems="10"
-            android:inputType="numberDecimal"
+            android:inputType="phone"
             app:layout_constraintStart_toEndOf="@+id/pd_text_new"
             app:layout_constraintTop_toTopOf="parent" />
 

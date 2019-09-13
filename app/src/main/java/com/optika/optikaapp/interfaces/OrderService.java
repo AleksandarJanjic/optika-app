@@ -28,7 +28,7 @@ public interface OrderService {
             @Query("os_cyl") Double os_cyl,
             @Query("od_angle") Integer od_angle,
             @Query("os_angle") Integer os_angle,
-            @Query("pd") Double pd,
+            @Query("pd") String pd,
             @Query("type") String type,
             @Query("frame") String frame,
             @Query("comment") String comment,

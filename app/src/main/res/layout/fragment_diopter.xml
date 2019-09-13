@@ -33,19 +33,22 @@
         android:id="@+id/button_increase_whole"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/add_button"
+        android:src="@drawable/plus_sign_fill_big"
         app:layout_constraintBottom_toTopOf="@+id/diopter"
         app:layout_constraintStart_toEndOf="@id/diopter_id"
         android:background="@null"
+        android:scaleType="fitXY"
         />
 
     <ImageButton
         android:id="@+id/button_increase_quarter"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:background="@null"
-        android:src="@drawable/add_button_small"
+        android:src="@drawable/plus_sign_outline_big"
+        android:scaleType="fitXY"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toTopOf="@+id/diopter"
         app:layout_constraintStart_toEndOf="@id/button_increase_whole" />
 
@@ -56,16 +59,19 @@
         app:layout_constraintStart_toEndOf="@+id/diopter_id"
         app:layout_constraintTop_toBottomOf="@id/diopter"
         android:background="@null"
-        android:src="@drawable/remove_button"
+        android:src="@drawable/minus_sign_fill_big"
+        android:scaleType="fitXY"
         android:text="-"/>
 
     <ImageButton
         android:id="@+id/button_decrease_quarter"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:background="@null"
-        android:src="@drawable/remove_button_small"
+        android:src="@drawable/minus_sign_outline_big"
+        android:scaleType="fitXY"
+        android:layout_marginTop="5dp"
         app:layout_constraintStart_toEndOf="@+id/button_decrease_whole"
         app:layout_constraintTop_toBottomOf="@id/diopter" />
 

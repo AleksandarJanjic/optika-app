@@ -45,11 +45,11 @@ public class DetailsFragment extends Fragment {
         return view;
     }
 
-    public Double getPD() {
+    public String getPD() {
         if(pd.getText().toString().isEmpty()) {
-            return 0.0;
+            return "0";
         } else {
-            return Double.valueOf(pd.getText().toString());
+            return pd.getText().toString();
         }
     }
 

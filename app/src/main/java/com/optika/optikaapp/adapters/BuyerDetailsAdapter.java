@@ -2,6 +2,7 @@ package com.optika.optikaapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,20 +97,25 @@ public class BuyerDetailsAdapter extends BaseExpandableListAdapter {
         purpose.setText(order.getHasAddition() ? R.string.naocare_za_stalno : R.string.naocare_za_rad);
         TextView od_sph = (TextView) view.findViewById(R.id.od_sph_placeholder);
         od_sph.setText(CheckForNull.checkIfNull(order.getOd_sph()));
+        od_sph.setTypeface(Typeface.DEFAULT_BOLD);
         TextView od_cyl = (TextView) view.findViewById(R.id.od_cyl_placeholder);
         od_cyl.setText(CheckForNull.checkIfNull(order.getOd_cyl()));
+        od_cyl.setTypeface(Typeface.DEFAULT_BOLD);
         TextView od_angle = (TextView) view.findViewById(R.id.od_angle_placeholder);
         od_angle.setText(CheckForNull.checkIfNull(order.getOd_angle()));
         TextView os_sph = (TextView) view.findViewById(R.id.os_sph_placeholder);
         os_sph.setText(CheckForNull.checkIfNull(order.getOs_sph()));
+        os_sph.setTypeface(Typeface.DEFAULT_BOLD);
         TextView os_cyl = (TextView) view.findViewById(R.id.os_cyl_placeholder);
         os_cyl.setText(CheckForNull.checkIfNull(order.getOs_cyl()));
+        os_cyl.setTypeface(Typeface.DEFAULT_BOLD);
         TextView os_angle = (TextView) view.findViewById(R.id.os_angle_placeholder);
         os_angle.setText(CheckForNull.checkIfNull(order.getOs_angle()));
         TextView additionText = (TextView) view.findViewById(R.id.addition_text);
         TextView additionPlaceholder = (TextView) view.findViewById(R.id.addition_placeholder);
         if(order.getHasAddition()) {
             additionPlaceholder.setText(CheckForNull.checkIfNull(order.getAddition()));
+            additionPlaceholder.setTypeface(Typeface.DEFAULT_BOLD);
         } else {
             additionText.setVisibility(View.GONE);
             additionPlaceholder.setVisibility(View.GONE);
