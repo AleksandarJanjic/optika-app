@@ -20,6 +20,9 @@ public interface BuyerService {
     @GET("getBuyer/getBuyerById")
     Call<Buyer> getBuyerById(@Query("id") int id);
 
+    @POST("/deleteBuyer")
+    Call<String> deleteBuyer(@Query("id") int id);
+
     @POST("/AddBuyer")
     Call<String> addBuyer(
             @Query("name") String name,

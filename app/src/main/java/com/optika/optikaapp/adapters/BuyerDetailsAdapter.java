@@ -10,6 +10,8 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.optika.optikaapp.R;
 import com.optika.optikaapp.activities.DisplayBuyer;
 import com.optika.optikaapp.factories.RetrofitFactory;
@@ -31,12 +33,16 @@ public class BuyerDetailsAdapter extends BaseExpandableListAdapter {
     private List<String> titles;
     Context context;
     public static String optikaapp_userId;
+    private int userId;
+    private AppCompatActivity activity;
 
-    public BuyerDetailsAdapter(Context context, List<String> titles, HashMap<String, Order> orders) {
+    public BuyerDetailsAdapter(Context context, List<String> titles, HashMap<String, Order> orders, int userId, AppCompatActivity activity) {
         super();
         this.context = context;
         this.titles = titles;
         this.orders = orders;
+        this.userId = userId;
+        this.activity = activity;
     }
 
     @Override
@@ -140,9 +146,10 @@ public class BuyerDetailsAdapter extends BaseExpandableListAdapter {
                     public void onResponse(Call<String> call, Response<String> response) {
                         Intent intent = new Intent(context, DisplayBuyer.class);
                         intent.putExtra("origin", "BuyerDetailsAdapter");
-                        intent.putExtra(optikaapp_userId, order.getId());
+                        intent.putExtra(optikaapp_userId, userId);
                         intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
+                        activity.finish();
                     }
 
                     @Override

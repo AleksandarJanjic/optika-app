@@ -47,12 +47,13 @@ public class DisplayBuyer extends AppCompatActivity {
     private ImageButton addContact;
     private ImageButton addOrder;
     public static String optikaapp_userid;
+    private AppCompatActivity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_buyer);
-
+        activity = this;
         context = this;
 
         Intent intent = getIntent();
@@ -97,7 +98,7 @@ public class DisplayBuyer extends AppCompatActivity {
                 // Add Phone numbers if available
                 if(!(resultBuyer.getPhoneNums() == null)) {
                     ListView phonenums = (ListView) findViewById(R.id.contacts_placeholder);
-                    contactsAdapter = new ContactsAdapter(resultBuyer.getContacts(), context);
+                    contactsAdapter = new ContactsAdapter(resultBuyer.getContacts(), context, activity);
                     phonenums.setAdapter(contactsAdapter);
                 }
 
@@ -121,7 +122,7 @@ public class DisplayBuyer extends AppCompatActivity {
                             ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expandable_list);
                             orderTitles = new ArrayList<String>(orders.keySet()) {
                             };
-                            buyerDetailsAdapter = new BuyerDetailsAdapter(getApplicationContext(), orderTitles, orders);
+                            buyerDetailsAdapter = new BuyerDetailsAdapter(getApplicationContext(), orderTitles, orders, resultBuyer.getId(), activity);
                             expandableListView.setAdapter(buyerDetailsAdapter);
                         }
                     }
@@ -155,6 +156,25 @@ public class DisplayBuyer extends AppCompatActivity {
         intent.putExtra(optikaapp_userid, userId);
         startActivity(intent);
         finish();
+    }
+
+    public void deleteBuyer(View view) {
+        Retrofit retrofit = RetrofitFactory.getRetrofit();
+        BuyerService buyerService = retrofit.create(BuyerService.class);
+        Call<String> call = buyerService.deleteBuyer(userId);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                String res = response.body();
+                System.out.println(res);
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                System.out.println("Failed to delete Buyer");
+            }
+        });
     }
 
 }

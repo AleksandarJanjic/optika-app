@@ -14,6 +14,7 @@ import com.optika.optikaapp.R;
 import com.optika.optikaapp.adapters.BuyerAdapter;
 import com.optika.optikaapp.factories.RetrofitFactory;
 import com.optika.optikaapp.interfaces.BuyerService;
+import com.optika.optikaapp.interfaces.UtilService;
 import com.optika.optikaapp.model.Buyer;
 
 import java.util.List;
@@ -41,6 +42,8 @@ public class SearchActivity extends AppCompatActivity{
         listView = findViewById(R.id.list_view);
         searchView = findViewById(R.id.simpleSearchView);
         context = this;
+
+
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -102,6 +105,8 @@ public class SearchActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
+
     }
 
 

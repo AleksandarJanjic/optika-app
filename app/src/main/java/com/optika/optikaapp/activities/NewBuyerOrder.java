@@ -21,6 +21,7 @@ import com.optika.optikaapp.helpers.SaveableWithAddition;
 import com.optika.optikaapp.interfaces.BuyerService;
 import com.optika.optikaapp.interfaces.ContactService;
 import com.optika.optikaapp.interfaces.OrderService;
+import com.optika.optikaapp.interfaces.UtilService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,6 +41,7 @@ public class NewBuyerOrder extends AppCompatActivity implements Saveable, Saveab
     AdditionFragment addition_view;
     DetailsFragment details;
     FragmentManager fragmentManager;
+    AppCompatActivity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,8 @@ public class NewBuyerOrder extends AppCompatActivity implements Saveable, Saveab
         fragmentTransaction.add(R.id.root, save);
         fragmentTransaction.commit();
 
+        this.activity = this;
+        
     }
 
     public void additionOff() {
@@ -122,6 +126,7 @@ public class NewBuyerOrder extends AppCompatActivity implements Saveable, Saveab
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
                                 System.out.println(response.body());
+                                activity.finish();
                             }
 
                             @Override

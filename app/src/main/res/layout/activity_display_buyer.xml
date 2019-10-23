@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.DisplayBuyer"
@@ -54,6 +55,19 @@
 
             app:layout_constraintStart_toEndOf="@+id/lastname_text"
             app:layout_constraintTop_toBottomOf="@+id/name_placeholder"/>
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@null"
+            android:src="@drawable/delete_icon"
+            android:scaleType="fitXY"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:onClick="deleteBuyer"
+            />
 
         <View
             android:id="@+id/separator_lastname_contact"
@@ -115,26 +129,36 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ExpandableListView
-        android:id="@+id/expandable_list"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/list_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/buyer_details_constraint">
+        >
+        <ExpandableListView
+            android:id="@+id/expandable_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:nestedScrollingEnabled="true"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </ExpandableListView>
+        </ExpandableListView>
 
-    <ImageButton
-        android:id="@+id/add_order_existing"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="8dp"
-        android:background="@null"
-        android:onClick="addOrder"
-        android:scaleType="fitXY"
-        android:src="@drawable/plus_sign_fill_big"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/expandable_list" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageButton
+            android:id="@+id/add_order_existing"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="8dp"
+            android:background="@null"
+            android:onClick="addOrder"
+            android:scaleType="fitXY"
+            android:src="@drawable/plus_sign_fill_big"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/expandable_list" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

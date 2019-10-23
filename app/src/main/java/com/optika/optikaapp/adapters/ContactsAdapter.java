@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.optika.optikaapp.R;
 import com.optika.optikaapp.activities.DisplayBuyer;
 import com.optika.optikaapp.factories.RetrofitFactory;
@@ -28,6 +30,7 @@ public class ContactsAdapter extends ArrayAdapter<Contact> implements View.OnCli
     List<Contact> contacts;
     Context context;
     public static String optikaapp_userId;
+    private AppCompatActivity activity;
 
     public ContactsAdapter(Context context, int resource) {
         super(context, resource);
@@ -43,7 +46,7 @@ public class ContactsAdapter extends ArrayAdapter<Contact> implements View.OnCli
         ImageButton deleteIcon;
     }
 
-    public ContactsAdapter(List<Contact> data, Context context) {
+    public ContactsAdapter(List<Contact> data, Context context, AppCompatActivity activity) {
         super(context, R.layout.row_contact , data);
         this.contacts = data;
         this.context = context;
@@ -83,6 +86,7 @@ public class ContactsAdapter extends ArrayAdapter<Contact> implements View.OnCli
                         intent.putExtra(optikaapp_userId, contact.getBuyer());
                         intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
+                        activity.finish();
                     }
 
                     @Override
